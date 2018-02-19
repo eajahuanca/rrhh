@@ -15,6 +15,11 @@ class CreateCorrelativosTable extends Migration
     {
         Schema::create('correlativos', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('cor_cite')->unique();
+            $table->integer('cor_valor')->undigned();
+            $table->integer('cor_gestion')->unsigned();
+            $table->text('cor_descripcion')->nullable();
+            $table->boolean('cor_estado')->default(true);
             $table->timestamps();
         });
     }
