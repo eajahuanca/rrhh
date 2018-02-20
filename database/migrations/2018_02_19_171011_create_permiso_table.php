@@ -16,11 +16,11 @@ class CreatePermisoTable extends Migration
         Schema::create('permisos', function (Blueprint $table) {
             $table->increments('id');
             $table->string('per_cite')->unique();
-            $table->date('per_fechapermiso')->default('0000-00-00');
+            $table->date('per_fechapermiso');
             $table->string('per_horasalida')->default('00:00:00');
             $table->string('per_horaretorno')->default('00:00:00');
-            $table->float('per_tiempo',18,2)->default('0.00');
-            $table->boolean('per_sinretorno')->default('false');
+            $table->decimal('per_tiempo',18,2)->default('0.00');
+            $table->boolean('per_sinretorno')->default(false);
             $table->text('pre_motivo');
             $table->enum('pre_tipo', ['COMISION','PERSONAL','OTROS']);
             $table->integer('idusersol')->unsigned();
