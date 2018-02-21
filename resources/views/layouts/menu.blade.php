@@ -11,7 +11,7 @@
 	<li class="">
 		<a href="{{ url('/user') }}">
 			<i class="menu-icon fa fa-user"></i>
-			<span class="menu-text">Usuarios</span>
+			<span class="menu-text"> Usuarios</span>
 		</a>
 		<b class="arrow"></b>
 	</li>
@@ -20,16 +20,16 @@
 	<li class="">
 		<a href="{{ url('/asis') }}">
 			<i class="menu-icon  fa fa-clock-o"></i>
-			<span class="menu-text">Asistencia</span>
+			<span class="menu-text"> Marcaciones</span>
 		</a>
 		<b class="arrow"></b>
 	</li>
 
-	<!--li class="">
-		<a href="{{ url('/registro') }}">
-			<i class="menu-icon  fa fa-book"></i>
-			<span class="menu-text">Registro Personal</span>
+	<li class="">
+		<a href="{{ url('/permiso') }}">
+			<i class="menu-icon  fa fa-suitcase"></i>
+			<span class="menu-text"> Permisos</span>
 		</a>
 		<b class="arrow"></b>
-	</li-->
-</ul><!-- /.nav-list -->
+	</li>
+</ul>

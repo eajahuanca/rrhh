@@ -74,25 +74,20 @@
                     </div>
                     <div class="col-xs-12 col-sm-9">
                         <div class="center">
-                            <span class="btn btn-app btn-sm btn-light no-hover">
-                                <span class="line-height-1 bigger-170 blue"> 0 </span>
-                                <br />
-                                <span class="line-height-1 smaller-90"> Vistas </span>
-                            </span>
                             <span class="btn btn-app btn-sm btn-yellow no-hover">
-                                <span class="line-height-1 bigger-170"> Aux</span>
+                                <span class="line-height-1 bigger-170"> DG</span>
                                 <br />
-                                <span class="line-height-1 smaller-90"> Almacen </span>
+                                <span class="line-height-1 smaller-90"> Dirección</span>
                             </span>
                             <span class="btn btn-app btn-sm btn-pink no-hover">
-                                <span class="line-height-1 bigger-170"> Aux </span>
+                                <span class="line-height-1 bigger-170"> RRHH </span>
                                 <br />
-                                <span class="line-height-1 smaller-90"> Ventas </span>
+                                <span class="line-height-1 smaller-90"> Recursos </span>
                             </span>
                             <span class="btn btn-app btn-sm btn-primary no-hover">
-                                <span class="line-height-1 bigger-170"> Ger. </span>
+                                <span class="line-height-1 bigger-170"> PL </span>
                                 <br />
-                                <span class="line-height-1 smaller-90"> General</span>
+                                <span class="line-height-1 smaller-90"> Planificación</span>
                             </span>
                             <span class="btn btn-app btn-sm btn-success no-hover">
                                 <span class="line-height-1 bigger-170"> Adm </span>

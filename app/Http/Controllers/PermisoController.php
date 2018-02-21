@@ -12,6 +12,14 @@ class PermisoController extends Controller
     }
 
     public function index(){
-        return 'test';
+        return view('admin.permiso.index');
+    }
+
+    public function create(){
+        return view('admin.permiso.create');
+    }
+
+    public function store(Request $request){
+
     }
 }

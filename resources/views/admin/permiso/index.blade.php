@@ -4,123 +4,69 @@
 @endsection
 
 @section('actual','Permisos y Comisiones')
-@section('titulo','REGISTRO DE PERMISOS Y COMISIONES')
-@section('detalle','en este módulo podrá registrar su permiso o comisión')
+@section('titulo','Listado de Permisos y/o comisiones registrados')
+@section('detalle','en esta parte se observan los datos registrados de permisos y/o comisiones')
 
 @section('cuerpo')
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="clearfix">
+                <div class="pull-left">
+                    <a class="btn btn-success btn-round" href="{{ route('permiso.create') }}">
+                        <i class="ace-icon fa fa-plus align-center"></i>
+                        <b>Nuevo Permiso/Comisión</b>
+                    </a>
+                </div>
+                <div class="pull-right tableTools-container"></div>
+            </div>
+            <div class="table-header">
+                Datos Registrados (Permisos/Comimsiones)
+            </div>
+            <div>
+                <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Nombre del Usuario</th>
+                            <th>Cuenta</th>
+                            <th>Tipo</th>
+                            <th>Estado</th>
+                            <th>Observaciones</th>
+                            <th>
+                                <i class="ace-icon fa fa-calendar bigger-110"></i>
+                                Fecha de Registro/Actualización
+                            </th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        <tr>
+                            <td>{{ '.' }}</td>
+                            <td>{{ '.' }}</td>
+                            <td>{{ '.' }}</td>
+                            <td>estado
+                            </td>
+                            <td>{{ '.' }}</td>
+                            <td>{{ '.' }}</td>
+                            <td>
+                                <div class="hidden-sm hidden-xs action-buttons">
+                                    <a class="blue tooltip-info" data-rel="tooltip" title="Ver" href="">
+                                        <i class="ace-icon fa fa-search-plus bigger-130"></i>
+                                    </a>
 
-<div class="row">
-	<div class="col-md-1"></div>
-	<div class="col-md-10">
-		<div class="well well-lg">
-			<?php error_reporting(0); ?>
-			<h3>Seleccione el tipo de permiso</h3>
-			<div class="row">
-				<div class="col-md-3"><label>{{ Form::radio('check_per', 1, null,['class' => 'flat-red']) }} COMISIÓN </label>
-					@if($errors->has('check_per'))
-						<span style="color:red;">
-							<strong>{{ $errors->first('check_per') }}</strong>
-						</span>
-					@endif
-				</div>
-				<!--div class="col-md-1">
-					@if($previou->id && $previou->pre_legal != '')
-					<a href="" target="_blank"><img src="{{ asset('plugins/login/img/pdfpng.png') }}" alt="Doc. Responsable Legal"/></a>
-					@endif
-				</div-->
-				<!--div class="col-md-8">
-					{{ Form::file('pre_legal') }}
-					@if($errors->has('pre_legal'))
-						<span style="color:red;">
-							<strong>{{ $errors->first('pre_legal') }}</strong>
-						</span>
-					@endif
-				</div-->
-			</div>
-			<div class="row">
-				<div class="col-md-3"><label>{{ Form::radio('check_per', 1, null,['class' => 'flat-red']) }} PERSONAL</label>
-					@if($errors->has('check_per'))
-						<span style="color:red;">
-							<strong>{{ $errors->first('check_per') }}</strong>
-						</span>
-					@endif
-				</div>
-				
-			</div>
-			<div class="row">
-				<div class="col-md-3"><label>{{ Form::radio('check_per', 1, null,['class' => 'flat-red']) }} OTROS</label>
-					@if($errors->has('check_per'))
-						<span style="color:red;">
-							<strong>{{ $errors->first('check_per') }}</strong>
-						</span>
-					@endif
-				</div>
-				<!--div class="col-md-1">
-					@if($previou->id && $previou->pre_legal != '')
-					<a href="" target="_blank"><img src="{{ asset('plugins/login/img/pdfpng.png') }}" alt="Doc. Responsable Legal"/></a>
-					@endif
-				</div-->
-				<!--div class="col-md-8">
-					{{ Form::file('pre_legal') }}
-					@if($errors->has('pre_legal'))
-						<span style="color:red;">
-							<strong>{{ $errors->first('pre_legal') }}</strong>
-						</span>
-					@endif
-				</div-->
-			</div>
-			<div class="row">
-				<div class="col-md-3"><label>{{ Form::date('check_per', 1, null,['class' => 'flat-red']) }} FECHA DEL PERMISO</label>
-					@if($errors->has('check_per'))
-						<span style="color:red;">
-							<strong>{{ $errors->first('check_per') }}</strong>
-						</span>
-					@endif
-				</div>
-				<div class="col-md-8"><label>DE HORAS: {{Form::time()}}</label> <label>A HORAS: {{Form::time()}}</label>  <label>                                                                                                                                                                         S/R: {{Form::checkbox()}}</label>
-					
-				</div>
-				<div class="col-md-8">
-					
-					<div class="form-group {{ $errors->has('pre_obs')?' has-error':'' }}">
-						{{ Form::label('pre_obs', 'Motivo') }}
-						{{ Form::textarea('pre_obs', null, ['class' => 'form-control', 'placeholder' => 'Ingrese el motivo de la salida ya sea comisión, personal u otros','rows' => 4]) }}
-						@if($errors->has('pre_obs'))
-							<span style="color:red;">
-								<strong>{{ $errors->first('pre_obs') }}</strong>
-							</span>
-						@endif
-					</div>	
-
-
-
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="col-md-1"></div>
-</div>
-
-<br>
-<div class="row">
-    <center>
-        <input type="submit" name="btnCancelar" value="Cancelar Permiso" class="btn btn-danger btn-round pull center">
-        <input type="submit" name="btnPendiente" value="Pendiente" class="btn btn-warning btn-round pull center">
-        <input type="submit" name="btnSolicitar" value="Solicitar Permiso" class="btn btn-success btn-round pull center">
-    </center>
-</div>
-{!! Form::close() !!}
+                                    <a class="green tooltip-success" data-rel="tooltip" title="Editar" href="">
+                                        <i class="ace-icon fa fa-pencil bigger-130"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 @endsection
-
-@section('scripts')
-    <script type="text/javascript">
-        $(document).ready(function(eve){
-            $('#articulo').append('<option value="todo" selected="selected">Todo</option>');
-        });
-    </script>
-@endsection
-
-
 
 @section('scripts')
     <script src="{{ asset('plugin/assets/js/jquery.dataTables.min.js') }}"></script>

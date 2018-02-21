@@ -32,5 +32,7 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::resource('/reporteph', 'ReportePHController');
 	
     Route::resource('/asis', 'AsistenciaController');
-    Route::resource('/registro', 'RegistroController');
+	//Route::resource('/registro', 'RegistroController');
+	
+	Route::resource('/permiso', 'PermisoController');
 });
