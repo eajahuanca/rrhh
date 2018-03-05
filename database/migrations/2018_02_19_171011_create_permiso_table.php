@@ -19,7 +19,7 @@ class CreatePermisoTable extends Migration
             $table->date('per_fechapermiso');
             $table->string('per_horasalida')->default('00:00:00');
             $table->string('per_horaretorno')->default('00:00:00');
-            $table->decimal('per_tiempo',18,2)->default('0.00');
+            $table->integer('per_tiempo')->default('0');
             $table->boolean('per_sinretorno')->default(false);
             $table->text('pre_motivo');
             $table->enum('pre_tipo', ['COMISION','PERSONAL','OTROS']);

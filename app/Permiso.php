@@ -70,4 +70,18 @@ class Permiso extends Model
             $this->attributes['pre_documento_nombre'] = $archivo->getClientOriginalName();
         }
     }
+
+    public function setPerSinretornoAttribute($valor){
+        $this->attributes['per_sinretorno'] = ($valor == 'on')? 1:0;
+    }
+
+    public function setPreTipoAttribute($valor){
+        if($valor == 1){
+            $this->attributes['pre_tipo'] = 'COMISION';
+        }if($valor == 2){
+            $this->attributes['pre_tipo'] = 'PERSONAL';
+        }if($valor == 3){
+            $this->attributes['pre_tipo'] = 'OTROS';
+        }
+    }
 }
