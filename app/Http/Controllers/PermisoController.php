@@ -9,6 +9,7 @@ use App\Correlativo;
 use Carbon\Carbon;
 use App\Permiso;
 use Toastr;
+use PDF;
 
 class PermisoController extends Controller
 {
@@ -84,5 +85,20 @@ class PermisoController extends Controller
         if($valor >= 10 && $valor < 100) return '00'.$valor;
         if($valor >= 100 && $valor < 1000) return '0'.$valor;
         if($valor >= 1000) return $valor;
+    }
+
+    public function reporte(){
+        $fechaImpresion = 'La Paz, '.date('d').' de '.$this->fecha().' de '.date('Y');
+        $view = \View::make('admin.permiso.reporte', compact('fechaImpresion'))->render();
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->setPaper('Letter','portrait');
+        $pdf->loadHTML($view);
+        //return $pdf->download('KARDEX.pdf');
+        return $pdf->stream();
+    }
+
+    public function fecha(){
+        $arrayMes = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+        return $arrayMes[(int)(date('m')) - 1];
     }
 }

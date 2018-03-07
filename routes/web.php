@@ -20,19 +20,10 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('/pnew', 'UserController@getForm');
 	Route::post('/newp', 'UserController@password');
 	Route::get('/home', 'HomeController@index')->name('home');
-	Route::resource('/proveedor', 'ProveedorController');
-	Route::resource('/articulo', 'ArticuloController');
-	Route::resource('/pcliente', 'PClienteController');
-	Route::resource('/hcliente', 'HClienteController');
-	Route::resource('/salida', 'SalidaController');
-	Route::resource('/kardexout', 'RegSalidaController');
-	Route::resource('/kardexin', 'RegEntradaController');
-	Route::resource('/lkardex', 'ListarController');
-	Route::resource('/reporteh', 'ReporteHController');
-	Route::resource('/reporteph', 'ReportePHController');
 	
     Route::resource('/asis', 'AsistenciaController');
 	//Route::resource('/registro', 'RegistroController');
 	
 	Route::resource('/permiso', 'PermisoController');
+	Route::get('/reporte', 'PermisoController@reporte')->name('reporte');
 });
