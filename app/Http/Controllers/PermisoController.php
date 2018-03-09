@@ -88,8 +88,10 @@ class PermisoController extends Controller
     }
 
     public function reporte(){
+        $permiso = Permiso::where('id','=',1)->where('pre_estadosol','=','ENVIADO')->where('pre_estadosup','=','APROBADO')->where('pre_estadorrhh','=','APROBADO')->where('pre_estadodg','=','APROBADO')->where('idusersol','=',Auth::user()->id)->first();
+        
         $fechaImpresion = 'La Paz, '.date('d').' de '.$this->fecha().' de '.date('Y');
-        $view = \View::make('admin.permiso.reporte', compact('fechaImpresion'))->render();
+        $view = \View::make('admin.permiso.reporte', compact('fechaImpresion','permiso'))->render();
         $pdf = \App::make('dompdf.wrapper');
         $pdf->setPaper('Letter','portrait');
         $pdf->loadHTML($view);

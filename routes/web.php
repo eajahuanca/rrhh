@@ -22,7 +22,6 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('/home', 'HomeController@index')->name('home');
 	
     Route::resource('/asis', 'AsistenciaController');
-	//Route::resource('/registro', 'RegistroController');
 	
 	Route::resource('/permiso', 'PermisoController');
 	Route::get('/reporte', 'PermisoController@reporte')->name('reporte');

@@ -19,5 +19,20 @@
 	    $arrayMes = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 	    $arrayFecha = explode('-', $fecha);
 	    return $arrayFecha[2].'/'.$arrayMes[(int)$arrayFecha[1] - 1].'/'.$arrayFecha[0];
-    }
+	}
+	
+	function fechaPermisoDia($fecha){
+		$arrayFecha = explode('-',$fecha);
+		return $arrayFecha[2];
+	}
+
+	function fechaPermisoMes($fecha){
+		$arrayFecha = explode('-',$fecha);
+		return $arrayFecha[1];
+	}
+
+	function fechaPermisoAnio($fecha){
+		$arrayFecha = explode('-',$fecha);
+		return $arrayFecha[0];
+	}
 ?>

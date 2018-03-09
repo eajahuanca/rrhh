@@ -6,7 +6,7 @@
     <style type="text/css">
         body{
             font-family: Arial, Helvetica, sans-serif;
-            font-size:12px;
+            font-size:11px;
         }
         table.tableizer-table {
             font-size: 12px;
@@ -54,7 +54,7 @@
         }
         .nota,.impresion{
             font-style:italic;
-            font-size:10px;
+            font-size:9.5px;
         }
         .nombres{
             font-size: 11px;
@@ -83,6 +83,9 @@
     </style>
 </head>
 <body>
+    @include('admin.fechas')
+    <!--ORIGINAL Y COPIA-->
+    <?php for($counter = 1 ; $counter <= 2; $counter++){ ?>
     <table width="100%">
         <tr>
             <td align="left" width="25  %"><img src="{{ asset('plugin/login/img/escudo_bolivia.gif') }}" width="95px" height="80px"/></td>
@@ -105,12 +108,12 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td><div class="cites2">XX</div></td>
-                <td><div class="cites2">XX</div></td>
-                <td><div class="cites2">XX</div></td>
+                <td><div class="cites2">{{ fechaPermisoDia($permiso->per_fechapermiso) }}</div></td>
+                <td><div class="cites2">{{ fechaPermisoMes($permiso->per_fechapermiso) }}</div></td>
+                <td><div class="cites2">{{ fechaPermisoAnio($permiso->per_fechapermiso) }}</div></td>
             </tr>
             <tr>
-                <td colspan="3"><div class="cites">12154-2018</div></td>
+                <td colspan="3"><div class="cites">{{ $permiso->per_cite }}</div></td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -122,45 +125,66 @@
         <table width="100%">
             <tr>
                 <td width="20%"><div class="nombres">APELLIDO Y NOMBRES :</div></td>
-                <td width="40%">xxxxxxxxxxxxxxx</td>
+                <td width="40%">{{ $permiso->userSolicitante->us_nombre.' '.$permiso->userSolicitante->us_paterno.' '.$permiso->userSolicitante->us_materno }}</td>
                 <td><div class="nombres" width="10%">CARNET DE IDENTIDAD :</div></td>
-                <td width="5%">xxxxxxxxxxxxxxx</td>
+                <td width="5%">{{ $permiso->userSolicitante->us_ci }}</td>
             </tr>
             <tr>
                 <td><div class="nombres">CARGO :</div></td>
-                <td colspan="3">xxxxxxxxxxxxxxx</td>
+                <td colspan="3">{{ $permiso->userSolicitante->us_cargo }}</td>
             </tr>
         </table>
         <table width="100%">
             <tr>
                 <td align="right" width><div class="nombres">TIPO DE PERMISO : </div></td>
                 <td align="right"><div class="nombres">COMISION </div></td>
-                <td><img src="{{ asset('plugin/assets/css/img/checkbox_check.png') }}"/></td>
+                <td>@if($permiso->pre_tipo=='COMISION') <img src="{{ asset('plugin/assets/css/img/checkbox_check.png') }}"/>@else <img src="{{ asset('plugin/assets/css/img/checkbox_not_check.png') }}"/>@endif</td>
                 <td align="right"><div class="nombres">PERSONAL </div></td>
-                <td><img src="{{ asset('plugin/assets/css/img/checkbox_not_check.png') }}"/></td>
+                <td>@if($permiso->pre_tipo=='PERSONAL') <img src="{{ asset('plugin/assets/css/img/checkbox_check.png') }}"/>@else <img src="{{ asset('plugin/assets/css/img/checkbox_not_check.png') }}"/>@endif</td>
                 <td align="right"><div class="nombres">OTROS </div></td>
-                <td><img src="{{ asset('plugin/assets/css/img/checkbox_not_check.png') }}"/></td>
+                <td>@if($permiso->pre_tipo=='OTROS') <img src="{{ asset('plugin/assets/css/img/checkbox_check.png') }}"/>@else <img src="{{ asset('plugin/assets/css/img/checkbox_not_check.png') }}"/>@endif</td>
             </tr>
         </table>
         <div class="horas">
-            DE HORAS : 11:30 A HORAS : 12:30 SIN RETORNO
+            DE HORAS : {{ $permiso->per_horasalida }} A HORAS : {{ $permiso->per_horaretorno }} @if($permiso->per_sinretorno) SIN RETORNO (SR) @else CON RETORNO (CR) @endif
         </div>
     
         <table width="100%" >
             <tr>
                 <td colspan="2"><div class="nombres">MOTIVO DEL PERMISO</div></td>
-                <td rowspan="2">{!! DNS2D::getBarcodeHTML("hola pendejos", "QRCODE",3,3) !!}</td>
+                <?php 
+                    $nombre = $permiso->userDireccionGeneral->us_nombre.' '.$permiso->userDireccionGeneral->us_paterno.' '.$permiso->userDireccionGeneral->us_materno;
+                    $retorno = ($permiso->per_sinretorno==1)? 'SR':'CR';
+                    $qr = $permiso->per_cite.'|'.$permiso->per_fechapermiso.'|'.$permiso->per_horasalida.'|'.$permiso->per_horaretorno.'|'.$retorno.'|'.$nombre;
+                ?>
+                <td rowspan="2">{!! DNS2D::getBarcodeHTML($qr, "QRCODE",3,3) !!}</td>
             </tr>
             <tr>
                 <td width="5%"></td>
-                <td width="95%" valign="top">mi motivo de permiso</td>
+                <td width="95%" valign="top">{!! $permiso->pre_motivo !!}</td>
             </tr>
         </table>
     </div>
-    <br>
     <div class="nota">
-        Aprobado Por: <b>{{ 'jefa' }}</b><br>
+        <table width="100%">
+            <tr>
+                <td width="15%">APROBADO POR :</td>
+                <td>Inmediato Superior : <b>{{ $permiso->userSuperior->us_nombre.' '.$permiso->userSuperior->us_paterno.' '.$permiso->userSuperior->us_materno }}</b></td>
+                <td class="cites" width="10%">@if($counter==1) ORIGINAL @else COPIA @endif</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="2">Recursos Humanos : <b>{{ $permiso->userRrhh->us_nombre.' '.$permiso->userRrhh->us_paterno.' '.$permiso->userRrhh->us_materno }}</b></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="2">Dirección General : <b>{{ $permiso->userDireccionGeneral->us_nombre.' '.$permiso->userDireccionGeneral->us_paterno.' '.$permiso->userDireccionGeneral->us_materno }}</b></td>
+            </tr>
+        </table>
         Fecha de Impresión : <b>{{ $fechaImpresion }}</b>
     </div>
+    @if($counter==1) <br><br><hr style="border:1px #104E8B dotted"><br> @endif
+    <?php } ?>
+
 </body>
 </html>
