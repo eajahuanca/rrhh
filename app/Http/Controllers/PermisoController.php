@@ -73,6 +73,18 @@ class PermisoController extends Controller
         return redirect()->route('permiso.index');
     }
 
+    public function edit($idpermiso){
+        //por iniciar
+    }
+
+    public function update(Request $request){
+        try{
+            //por iniciar
+        }catch(\Exception $ex){
+            dd($ex->getMessage());
+        }
+    }
+
     public function calculoTiempo($horasalida, $horaretorno){
         $aux1 = $horasalida.':00';
         $aux2 = $horaretorno.':00';
