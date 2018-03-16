@@ -24,5 +24,8 @@ Route::group(['middleware' => 'auth'], function(){
     Route::resource('/asis', 'AsistenciaController');
 	
 	Route::resource('/permiso', 'PermisoController');
-	Route::get('/reporte', 'PermisoController@reporte')->name('reporte');
+	Route::get('/reporte/{idpermiso}', 'PermisoController@reporte');
+    Route::get('superior', 'PermisoController@superior');
+    Route::get('recursos', 'PermisoController@recursos');
+    Route::get('direccion', 'PermisoController@direccion');
 });

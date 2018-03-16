@@ -25,19 +25,19 @@
             <div>
                 <table id="dynamic-table" class="table table-striped table-bordered table-hover">
                     <thead>
-                        <tr>
-                            <th>Nombre usuario</th>
-                            <th>Cite del Permiso</th>
-                            <th><i class="ace-icon fa fa-calendar bigger-110"></i> Fecha/hora de Permiso</th>
-                            <th>Motivo del Permiso</th>
-                            <th>Tipo de Permiso</th>
-                            <th>Estado</th>
-                            <th></th>
-                        </tr>
+                    <tr>
+                        <th>Nombre usuario</th>
+                        <th>Cite del Permiso</th>
+                        <th><i class="ace-icon fa fa-calendar bigger-110"></i> Fecha/hora de Permiso</th>
+                        <th>Motivo del Permiso</th>
+                        <th>Tipo de Permiso</th>
+                        <th>Estado</th>
+                        <th></th>
+                    </tr>
                     </thead>
                     <tbody>
-                        @include('admin.fechas')
-                        @foreach($permiso as $item)
+                    @include('admin.fechas')
+                    @foreach($permiso as $item)
                         <tr>
                             <td>{{ $item->userSolicitante->us_nombre.' '.$item->userSolicitante->us_paterno.' '.$item->userSolicitante->us_materno }}</td>
                             <td><b>{{ $item->per_cite }}</b></td>
@@ -74,29 +74,29 @@
                             </td>
                             <td>
                                 @if($item->per_estadosol == 'PENDIENTE')
-                                <div class="hidden-sm hidden-xs action-buttons">
-                                    <a class="green tooltip-info btn btn-primary btn-round" data-rel="tooltip" title="Actualizar datos de Permiso" href="{{ route('permiso.edit', $item->id) }}">
-                                        <i class="ace-icon fa fa-pencil bigger-130"></i> Editar
-                                    </a>
-                                </div>
+                                    <div class="hidden-sm hidden-xs action-buttons">
+                                        <a class="green tooltip-info btn btn-primary btn-round" data-rel="tooltip" title="Actualizar datos de Permiso" href="{{ route('permiso.edit', $item->id) }}">
+                                            <i class="ace-icon fa fa-pencil bigger-130"></i> Editar
+                                        </a>
+                                    </div>
                                 @endif
                                 @if($item->pre_estadosup == 'RECHAZADO' || $item->pre_estadorrhh == 'RECHAZADO' || $item->pre_estadodg == 'RECHAZADO')
-                                <div class="hidden-sm hidden-xs action-buttons">
-                                    <a class="green tooltip-error btn btn-danger btn-round" data-rel="tooltip" title="@if($item->pre_obssup != ''){!! $item->pre_obssup.' (Inmediato Superior)' !!} @endif @if($item->pre_obsrrhh != '') {!! $item->pre_obsrrhh.' (Recursos Humanos)' !!} @endif @if($item->pre_obsdg != '') {!! $item->pre_obsdg.' (Dirección General)' !!} @endif" href="">
-                                        <i class="ace-icon fa fa-remove bigger-130"></i> RECHAZADO
-                                    </a>
-                                </div>
+                                    <div class="hidden-sm hidden-xs action-buttons">
+                                        <a class="green tooltip-error btn btn-danger btn-round" data-rel="tooltip" title="@if($item->pre_obssup != ''){!! $item->pre_obssup.' (Inmediato Superior)' !!} @endif @if($item->pre_obsrrhh != '') {!! $item->pre_obsrrhh.' (Recursos Humanos)' !!} @endif @if($item->pre_obsdg != '') {!! $item->pre_obsdg.' (Dirección General)' !!} @endif" href="">
+                                            <i class="ace-icon fa fa-remove bigger-130"></i> RECHAZADO
+                                        </a>
+                                    </div>
                                 @endif
                                 @if($item->pre_estadodg == 'APROBADO')
-                                <div class="hidden-sm hidden-xs action-buttons">
-                                    <a class="green tooltip-success btn btn-success btn-round" data-rel="tooltip" title="Descargar Boleta" href="{{ url('reporte', $item->id) }}" target="_blank">
-                                        <i class="ace-icon fa fa-file-pdf-o bigger-130"></i> APROBADO
-                                    </a>
-                                </div>
+                                    <div class="hidden-sm hidden-xs action-buttons">
+                                        <a class="green tooltip-error btn btn-danger btn-round" data-rel="tooltip" title="Descargar Boleta" href="{{ url('reporte', $item->id) }}" target="_blank">
+                                            <i class="ace-icon fa fa-file-pdf-o bigger-130"></i> APROBADO
+                                        </a>
+                                    </div>
                                 @endif
                             </td>
                         </tr>
-                        @endforeach
+                    @endforeach
                     </tbody>
                 </table>
             </div>

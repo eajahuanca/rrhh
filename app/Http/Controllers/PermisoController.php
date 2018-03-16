@@ -36,6 +36,19 @@ class PermisoController extends Controller
                 'pre_tipo' => 'Tipo de Permiso',
                 'pre_motivo' => 'Motivo del Permiso'
             );
+            $validator = Validator::make($request->all(),[
+                'per_fechapermiso' => 'required',
+                'per_horasalida' => 'required',
+                'per_horaretorno' => 'required',
+                'pre_tipo' => 'required',
+                'pre_motivo' => 'required|min:20'
+            ]);
+            $validator->setAttributeNames($attributes);
+            if($validator->fails()){
+                Toastr::error('Verificar campos validos para su correción','Error');
+                return redirect()->route('permiso.create')->withErrors($validator)->withInput();
+            }
+
             $permiso = new Permiso($request->all());
             $permiso->idusersol = Auth::user()->id;
             $permiso->idusersup = Auth::user()->id;
@@ -43,18 +56,7 @@ class PermisoController extends Controller
             $permiso->iduserdg = Auth::user()->id;
             $permiso->idusersol = Auth::user()->id;
             if(isset($_POST['btnSolicitar'])){
-                $validator = Validator::make($request->all(),[
-                    'per_fechapermiso' => 'required',
-                    'per_horasalida' => 'required',
-                    'per_horaretorno' => 'required',
-                    'pre_tipo' => 'required',
-                    'pre_motivo' => 'required|min:20'
-                ]);
-                $validator->setAttributeNames($attributes);
-                if($validator->fails()){
-                    Toastr::error('Verificar campos validos para su correción','Error');
-                    return redirect()->route('permiso.create')->withErrors($validator)->withInput();
-                }
+
                 $permiso->pre_estadosol = 'ENVIADO';
                 $permiso->per_tiempo = $this->calculoTiempo($permiso->per_horasalida,$permiso->per_horaretorno);
                 $cite = Correlativo::where('cor_descripcion','=','PERMISOS')->where('cor_estado','=',1)->first();
@@ -66,6 +68,12 @@ class PermisoController extends Controller
                 Toastr::success('Los datos del permiso se registraron de manera correcta y fueron enviados a su inmediato superior','Registro');
             }elseif(isset($_POST['btnPendiente'])){
                 $permiso->pre_estadosol = 'PENDIENTE';
+                $permiso->per_tiempo = $this->calculoTiempo($permiso->per_horasalida,$permiso->per_horaretorno);
+                $permiso->per_cite = 0;
+                $permiso->pre_estadosup = 'SOL';
+                $permiso->save();
+                Toastr::success('Los datos del permiso se registraron de manera correcta y se encuentra como pendiente','Pendiente');
+
             }
         }catch(\Exception $ex){
             Toastr::error('Ocurrio el siguiente error: '.$ex->getMessage());
@@ -77,12 +85,73 @@ class PermisoController extends Controller
         //por iniciar
     }
 
-    public function update(Request $request){
+    public function update(Request $request, $idpermiso){
         try{
-            //por iniciar
+            $attributes = array(
+                'per_fechapermiso' => 'Fecha de Permiso',
+                'per_horasalida' => 'Hora de Salida',
+                'per_horaretorno' => 'Hora de Retorno',
+                'per_sinretorno' => 'Sin Retorno',
+                'pre_tipo' => 'Tipo de Permiso',
+                'pre_motivo' => 'Motivo del Permiso'
+            );
+            $validator = Validator::make($request->all(),[
+                'per_fechapermiso' => 'required',
+                'per_horasalida' => 'required',
+                'per_horaretorno' => 'required',
+                'pre_tipo' => 'required',
+                'pre_motivo' => 'required|min:20'
+            ]);
+            $validator->setAttributeNames($attributes);
+            if($validator->fails()){
+                Toastr::error('Verificar campos validos para su correción','Error');
+                return redirect()->route('permiso.create')->withErrors($validator)->withInput();
+            }
+
+            $permiso = new Permiso($request->all());
+            $permiso->idusersol = Auth::user()->id;
+            $permiso->idusersup = Auth::user()->id;
+            $permiso->iduserrrhh = Auth::user()->id;
+            $permiso->iduserdg = Auth::user()->id;
+            $permiso->idusersol = Auth::user()->id;
+            if(isset($_POST['btnSolicitar'])){
+
+                $permiso->pre_estadosol = 'ENVIADO';
+                $permiso->per_tiempo = $this->calculoTiempo($permiso->per_horasalida,$permiso->per_horaretorno);
+                $permiso->pre_estadosup = 'PENDIENTE';
+                $permiso->update();
+
+                if($permiso->per_cite == 0){
+                    $cite = Correlativo::where('cor_descripcion','=','PERMISOS')->where('cor_estado','=',1)->first();
+                    $permiso->per_cite = $cite->cor_cite.'-'.$this->correlativo($cite->cor_valor).'/'.$cite->cor_gestion;
+                    $cite->cor_valor = $cite->cor_valor + 1;
+                    $cite->update();
+                }
+                Toastr::success('Los datos del permiso se registraron de manera correcta y fueron enviados a su inmediato superior','Registro');
+            }elseif(isset($_POST['btnPendiente'])){
+                $permiso->pre_estadosol = 'PENDIENTE';
+                $permiso->per_tiempo = $this->calculoTiempo($permiso->per_horasalida,$permiso->per_horaretorno);
+                $permiso->per_cite = 0;
+                $permiso->pre_estadosup = 'SOL';
+                $permiso->update();
+                Toastr::success('Los datos del permiso se registraron de manera correcta y se encuentra como pendiente','Pendiente');
+
+            }
         }catch(\Exception $ex){
-            dd($ex->getMessage());
+            Toastr::error('Ocurrio el siguiente error: '.$ex->getMessage());
         }
+    }
+
+    public function superior($idpermiso){
+
+    }
+
+    public function recursos($idpermiso){
+
+    }
+
+    public function direccion($idpermiso){
+
     }
 
     public function calculoTiempo($horasalida, $horaretorno){
@@ -99,7 +168,7 @@ class PermisoController extends Controller
         if($valor >= 1000) return $valor;
     }
 
-    public function reporte(){
+    public function reporte(Request $request, $idpermiso){
         $permiso = Permiso::where('id','=',1)->where('pre_estadosol','=','ENVIADO')->where('pre_estadosup','=','APROBADO')->where('pre_estadorrhh','=','APROBADO')->where('pre_estadodg','=','APROBADO')->where('idusersol','=',Auth::user()->id)->first();
         
         $fechaImpresion = 'La Paz, '.date('d').' de '.$this->fecha().' de '.date('Y');
